@@ -1,13 +1,15 @@
-package nsi.schoolplanner;
+package nsi.schoolplanner.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import nsi.schoolplanner.R;
+
+public class WeekPlanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_week_plan);
     }
 }

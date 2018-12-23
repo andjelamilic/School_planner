@@ -9,13 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.NewExamActivity" />
+        <activity android:name=".Activities.ExamActivity" />
+        <activity android:name=".Activities.TimeTableActivity" />
+        <activity android:name=".Activities.CalendarActivity" />
+        <activity android:name=".Activities.AllSubjectsActivity" />
+        <activity android:name=".Activities.SubjectActivity" />
+        <activity android:name=".Activities.GradesActivity" />
+        <activity android:name=".Activities.AllWeekPlansActivity" />
+        <activity android:name=".Activities.WeekPlanActivity"></activity>
     </application>
 
 </manifest>
