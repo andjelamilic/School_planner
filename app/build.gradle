@@ -19,6 +19,11 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 2
+    // daoPackage "com.example.model" // set package of generated classes
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
