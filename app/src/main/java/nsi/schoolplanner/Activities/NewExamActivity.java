@@ -11,5 +11,16 @@ public class NewExamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_exam);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.newExam));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
