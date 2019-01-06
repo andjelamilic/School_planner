@@ -24,7 +24,7 @@
         <activity android:name=".Activities.SubjectActivity" />
         <activity android:name=".Activities.GradesActivity" />
         <activity android:name=".Activities.AllWeekPlansActivity" />
-        <activity android:name=".Activities.WeekPlanActivity"></activity>
+        <activity android:name=".Activities.WeekPlanActivity" />
     </application>
 
 </manifest>

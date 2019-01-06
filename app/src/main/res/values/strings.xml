@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">School planner</string>
+
+    <string name="subject">Subject</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="title">Title</string>
+    <string name="note">Note</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="timetable">Timetable</string>
+    <string name="calendar">Calendar</string>
+    <string name="grades">Grades</string>
+    <string name="subjects">Subjects</string>
+    <string name="newSemestar">New semestar</string>
+    <string name="weekPlans">Week plans</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="newExam">New exam</string>
+    <string name="areYouSureAll">Are you sure you want to delete all grades, exams and timetable?</string>
 </resources>
