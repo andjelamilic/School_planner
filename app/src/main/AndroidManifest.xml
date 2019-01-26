@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nsi.schoolplanner">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/book"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.HomeActivity">
@@ -16,15 +17,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.NewExamActivity" />
-        <activity android:name=".Activities.ExamActivity" />
-        <activity android:name=".Activities.TimeTableActivity" />
-        <activity android:name=".Activities.CalendarActivity" />
-        <activity android:name=".Activities.AllSubjectsActivity" />
-        <activity android:name=".Activities.SubjectActivity" />
-        <activity android:name=".Activities.GradesActivity" />
-        <activity android:name=".Activities.AllWeekPlansActivity" />
-        <activity android:name=".Activities.WeekPlanActivity" />
+        <activity android:name=".Activities.NewExamActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ExamActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.TimeTableActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CalendarActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.AllSubjectsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.SubjectActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.GradesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.AllWeekPlansActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.WeekPlanActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,12 +45,11 @@ public class DBManagerSingletone {
         // -------------------------  IVINE FUNKCIJE  ----------------------------------------------------------------------------
 
         public void createPerson(Person person){
-
-            DBManagerSingletone.getInstance(this.context).daoSession.insert(person);
+           daoSession.insert(person);
         }
 
         public void updatePerson(Person person){
-
+            daoSession.getPersonDao().update(person);
         }
 
         public Person getPerson(String name){
@@ -60,12 +60,20 @@ public class DBManagerSingletone {
             return person;
         }
 
-        public void createExam(Exam exam){
-            DBManagerSingletone.getInstance(this.context).daoSession.insert(exam);
+        public Person getPerson(){
+           List<Person> personList = daoSession.getPersonDao().loadAll();
+           if(personList.size() > 0)
+               return personList.get(0);
+
+           return  null;
+        }
+
+        public Long createExam(Exam exam){
+            return daoSession.insert(exam); //returns id
         }
 
         public Exam getExam(Long id){
-            return new Exam();
+            return daoSession.getExamDao().load(id);
         }
 
         public Exam getExam(String title){
@@ -76,47 +84,80 @@ public class DBManagerSingletone {
             return exam;
         }
 
-        public ArrayList<Exam> getFutureExams(){
-            ArrayList<Exam> exams = new ArrayList<>();
+        public List<Exam> getFutureExams(){
+            Date startDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+            calendar.add(Calendar.YEAR, 1);
+            Date endDate = calendar.getTime();
 
+            ExamDao examDao = daoSession.getExamDao();
+            List<Exam> exams = examDao.queryBuilder()
+                    .where(ExamDao.Properties.Date.between(startDate, endDate))
+                    .orderAsc(ExamDao.Properties.Date)
+                    .list();
 
             return exams;
         }
 
         public void updateExam(Exam exam){
-
+            daoSession.getExamDao().update(exam);
         }
 
         public void deleteExam(Exam exam){
+            if(exam.getGrade() != null)
+                daoSession.getGradeDao().delete(exam.getGrade());
 
+            daoSession.getExamDao().delete(exam);
         }
 
-        public ArrayList<Exam> getExamsForDate(Date date){
-            ArrayList<Exam> exams = new ArrayList<>();
+        public List<Exam> getExamsForDate(Date date){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            Date startDate = calendar.getTime();
+
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            Date endDate = calendar.getTime();
+
+            ExamDao examDao = daoSession.getExamDao();
+            List<Exam> exams = examDao.queryBuilder()
+                    .where(ExamDao.Properties.Date.between(startDate, endDate))
+                    .list();
 
             return exams;
         }
 
         public void deleteGradesAndTimeTable(){
-
+            daoSession.getGradeDao().deleteAll();
+            daoSession.getExamDao().deleteAll();
+            daoSession.getJoinTimetableWithSubjectDao().deleteAll();
+            daoSession.getTimetableDao().deleteAll();
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-        public void createSubject(Subject subject){
+        public Long createSubject(Subject subject){
 
-            DBManagerSingletone.getInstance(this.context).daoSession.insert(subject);
+           return DBManagerSingletone.getInstance(this.context).daoSession.insert(subject);
         }
 
         public Subject getSubject(String name){
 
             SubjectDao subjectDao=daoSession.getSubjectDao();
-            Subject subject = subjectDao.queryBuilder()
+            List<Subject> subjects = subjectDao.queryBuilder()
                     .where(SubjectDao.Properties.Name.eq(name))
-                    .list().get(0);
-            return subject;
+                    .list();
+
+            if(subjects.size()>0)
+                return subjects.get(0);
+            else
+                return null;
+
         }
 
         public Subject getSubject(Long id){
