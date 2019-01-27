@@ -21,6 +21,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="newExam">New exam</string>
     <string name="areYouSureAll">Are you sure you want to delete all grades, exams and timetable?</string>
+
     <string name="subject_name">Subject name</string>
     <string name="question">Delete subject?</string>
     <string name="exams">Exams</string>
@@ -32,4 +33,13 @@
     <string name="thursday">Thu</string>
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
+    <string name="editExam">Edit exam</string>
+    <string name="provideData">Provide the required data first</string>
+    <string name="saved">Saved!</string>
+    <string name="areYouSure">Are you sure?</string>
+    <string name="deleted">Deleted!</string>
+    <string name="deletingFailed">Deleting failed</string>
+    <string name="daysAnd">days and </string>
+    <string name="hours">hours</string>
+
 </resources>
