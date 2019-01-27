@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
 
             case R.id.subjects:{
-                Intent intent = new Intent(this, SubjectActivity.class);
+                Intent intent = new Intent(this, AllSubjectsActivity.class);
                 startActivity(intent);
                 break;
             }

@@ -110,7 +110,7 @@ public class DBManagerSingletone {
             DBManagerSingletone.getInstance(this.context).daoSession.insert(subject);
         }
 
-        public Subject getSubject(String name){
+        public Subject getSubjectByName(String name){
 
             SubjectDao subjectDao=daoSession.getSubjectDao();
             Subject subject = subjectDao.queryBuilder()
@@ -119,10 +119,24 @@ public class DBManagerSingletone {
             return subject;
         }
 
-        public Subject getSubject(Long id){
+        public Subject getSubjectById(Long id){
             SubjectDao subjectDao = daoSession.getSubjectDao();
             Subject subject = subjectDao.queryBuilder().where(SubjectDao.Properties.Id.eq(id)).list().get(0);
             return subject;
+        }
+
+        public List<Subject> getAllSubjects(){
+
+            SubjectDao subjectDao=daoSession.getSubjectDao();
+            List<Subject>subjects=subjectDao.queryBuilder().list();
+            return  subjects;
+        }
+
+        public void deleteSubject(String name){
+
+            Subject subject=getSubjectByName(name);
+            SubjectDao subjectDao=daoSession.getSubjectDao();
+            subjectDao.delete(subject);
         }
 
     }
