@@ -63,7 +63,7 @@
             android:textSize="20sp"
             android:textColor="@android:color/black"/>
 
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -96,7 +96,7 @@
             android:textSize="20sp"
             android:textColor="@android:color/black"/>
 
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -129,7 +129,7 @@
             android:textSize="20sp"
             android:textColor="@android:color/black"/>
 
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
@@ -191,6 +191,7 @@
             android:background="@color/yellow"
             android:layout_marginEnd="20dp"/>
 
+        <!--dodavanje pozadine iz xml-a ne radi kako treba, dodato u javi-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
