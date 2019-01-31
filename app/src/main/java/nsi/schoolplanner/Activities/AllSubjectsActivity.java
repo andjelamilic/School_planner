@@ -103,7 +103,6 @@ public class AllSubjectsActivity extends AppCompatActivity implements View.OnCli
     }
     @Override
     public boolean onSupportNavigateUp() {
-       // finish();
         startActivity(new Intent(AllSubjectsActivity.this,HomeActivity.class));
         return true;
     }

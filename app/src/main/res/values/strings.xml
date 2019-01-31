@@ -41,5 +41,9 @@
     <string name="deletingFailed">Deleting failed</string>
     <string name="daysAnd">days and </string>
     <string name="hours">hours</string>
+    <string name="average_rating">Average rating:</string>
+    <string name="add_grade">Add grade</string>
+    <string name="edit_grade">Edit grade</string>
+    <string name="final_grade">Final grade</string>
 
 </resources>

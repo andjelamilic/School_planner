@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import nsi.schoolplanner.Activities.AllSubjectsActivity;
 import nsi.schoolplanner.Activities.SubjectActivity;
+import nsi.schoolplanner.Activities.TimeTableActivity;
 import nsi.schoolplanner.Model.DBManagerSingletone;
 import nsi.schoolplanner.Model.Subject;
 import nsi.schoolplanner.R;
@@ -71,6 +73,7 @@ public class ChooseSubjectAdapter extends RecyclerView.Adapter<ChooseSubjectAdap
                         lastCheckedRB.setChecked(false);
                     }
                     lastCheckedRB = subject;
+                    TimeTableActivity.subject=lastCheckedRB.getText().toString();
                 }
             });
 

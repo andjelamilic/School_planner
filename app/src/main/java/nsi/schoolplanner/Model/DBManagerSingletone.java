@@ -1,15 +1,19 @@
 package nsi.schoolplanner.Model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseOpenHelper;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DBManagerSingletone {
     private static DBManager instance = null;
@@ -39,6 +43,8 @@ public class DBManagerSingletone {
             dbhelper = helper.getWritableDb();
 
             daoSession = new DaoMaster(dbhelper).newSession();
+
+
         }
 
 
@@ -133,7 +139,6 @@ public class DBManagerSingletone {
         public void deleteGradesAndTimeTable(){
             daoSession.getGradeDao().deleteAll();
             daoSession.getExamDao().deleteAll();
-            daoSession.getJoinTimetableWithSubjectDao().deleteAll();
             daoSession.getTimetableDao().deleteAll();
         }
 
@@ -173,6 +178,7 @@ public class DBManagerSingletone {
             return  subjects;
         }
 
+
         public void deleteSubject(String name){
 
             Subject subject=getSubjectByName(name);
@@ -180,38 +186,110 @@ public class DBManagerSingletone {
             subjectDao.delete(subject);
         }
 
+        public List<Exam> getAllSubjectExams(Subject subject){
+
+            ExamDao examDao=daoSession.getExamDao();
+            List<Exam> exams=examDao.queryBuilder().where(ExamDao.Properties.SubjectId.eq(subject.getId())).list();
+
+            if(exams.size()>0){
+                return exams;
+            }
+            else
+                return null;
+        }
+        public void addGrade(Exam exam, int grade){
+
+            Grade newGrade=new Grade();
+            newGrade.setGrade(grade);
+            newGrade.setExam(exam);
+            newGrade.setExamId(exam.getId());
+
+            daoSession.insert(newGrade);
+
+            GradeDao gradeDao=daoSession.getGradeDao();
+
+            Grade gradedb=gradeDao.queryBuilder().where(GradeDao.Properties.ExamId.eq(exam.getId())).list().get(0);
+            exam.setGrade(gradedb);
+            exam.setGradeId(gradedb.getId());
+            daoSession.getExamDao().update(exam);
+        }
+
+        public  Grade getGrade(Exam exam){
+
+            ExamDao examDao=daoSession.getExamDao();
+            Exam examdb=examDao.queryBuilder().where(ExamDao.Properties.Id.eq(exam.getId())).list().get(0);
+            return examdb.getGrade();
+        }
+
+        public void editGrade(Exam exam, int grade){
+
+            Grade gradedb=exam.getGrade();
+            gradedb.setGrade(grade);
+            daoSession.getGradeDao().update(gradedb);
+        }
+
+        public void deleteGrade(Exam exam){
+
+            Grade gradedb=exam.getGrade();
+            daoSession.delete(gradedb);
+
+            exam.setGradeId(null);
+            exam.setGrade(null);
+            daoSession.update(exam);
+        }
+
+        public void deleteSubject(Subject subject){
+
+            ExamDao examDao=daoSession.getExamDao();
+            List<Exam>exams=examDao.queryBuilder().where(ExamDao.Properties.SubjectId.eq(subject.getId())).list();
+            for(int i=0;i<exams.size();i++){
+                Grade grade=exams.get(i).getGrade();
+                daoSession.delete(grade);
+                daoSession.delete(exams.get(i));
+            }
+            daoSession.delete(subject);
+        }
+        public void editSubject(Subject subject,String name){
+
+            subject.setName(name);
+            daoSession.update(subject);
+        }
+
+        public void addFinalGrade(Subject subject,int grade){
+
+            subject.setFinalGrade(grade);
+            daoSession.update(subject);
+        }
+
+        public void createTimetable(int row,int column,String subject){
+
+            Timetable timetable=new Timetable();
+            timetable.setColumn(column);
+            timetable.setRow(row);
+            timetable.setSubject(subject);
+            daoSession.insert(timetable);
+        }
+
+        public String getTimetable(int row,int column){
+            TimetableDao timetableDao=daoSession.getTimetableDao();
+            List<Timetable> timetables=timetableDao.queryBuilder().where(TimetableDao.Properties.Row.eq(row),TimetableDao.Properties.Column.eq(column)).list();
+            if(timetables.size()>0){
+                if(timetables.get(0).getSubject()!=null){
+                    return timetables.get(0).getSubject();
+                }
+            }
+            return null;
+        }
+
+        public void editTimetable(int row,int column,String subject){
+            TimetableDao timetableDao=daoSession.getTimetableDao();
+            List<Timetable> timetables=timetableDao.queryBuilder().where(TimetableDao.Properties.Row.eq(row),TimetableDao.Properties.Column.eq(column)).list();
+            if(timetables.size()>0){
+                if(timetables.get(0).getSubject()!=null){
+                    timetables.get(0).setSubject(subject);
+                    daoSession.update(timetables.get(0));
+                }
+            }
+        }
     }
 }
-
-
-//KOD IZ HOME ACTIVITY STO SMO ISPROBAVALE
-        /*DBManagerSingletone.getInstance(this);
-
-        Person person=new Person();
-        person.setName("Andjela");
-        DBManagerSingletone.getInstance(this).createPerson(person);
-        Person person2=DBManagerSingletone.getInstance(this).getPerson("Andjela");
-
-        try {
-            Subject subject = new Subject();
-            subject.setName("Fizika4");
-            DBManagerSingletone.getInstance(this).createSubject(subject);
-
-            Exam exam = new Exam();
-            exam.setTitle("Pismeni");
-            exam.setSubjectId(subject.getId());
-            DBManagerSingletone.getInstance(this).createExam(exam);
-            Exam exam1 = DBManagerSingletone.getInstance(this).getExam("Pismeni");
-            Subject subject2 = DBManagerSingletone.getInstance(this).getSubject(exam1.getSubjectId());
-
-            List<Exam> exams = subject.getExams();
-            exams.add(exam);
-            subject.resetExams();
-
-            Subject subject1 = DBManagerSingletone.getInstance(this).getSubject("Fizika4");
-            subject1.getExams();
-            int a = 3;
-        }
-        catch (Exception e){
-            Log.i("IVADAO", e.getMessage());
-        }*/

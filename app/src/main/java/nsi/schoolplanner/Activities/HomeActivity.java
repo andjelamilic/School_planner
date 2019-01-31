@@ -44,6 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         person = DBManagerSingletone.getInstance(this).getPerson();
         setNavigationView();
         setFloatingActionButton();

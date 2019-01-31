@@ -26,7 +26,7 @@ import nsi.schoolplanner.R;
 public class NewExamActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText txtTitle;
-    private TextView txtSubject;
+    private EditText txtSubject;
     private TextView txtDate;
     private TextView txtTime;
     private EditText txtNote;
@@ -99,11 +99,6 @@ public class NewExamActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
 
-            case R.id.txtSubject:{
-                startSubjectPicker();
-                break;
-            }
-
             case R.id.txtDate:{
                 startDatePicker();
                 break;
@@ -129,21 +124,21 @@ public class NewExamActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void startSubjectPicker(){
-        Subject subject = DBManagerSingletone.getInstance(this).getSubject("Fizika");
+        Subject subject = DBManagerSingletone.getInstance(this).getSubjectByName(txtSubject.getText().toString());
 
         Long id;
 
         if(subject == null){
             subject = new Subject();
-            subject.setName("Fizika");
+            subject.setName(txtSubject.getText().toString());
             id = DBManagerSingletone.getInstance(this).createSubject(subject);
         }
         else{
             id = subject.getId();
         }
 
+        exam.setSubject(subject);
         exam.setSubjectId(id);
-        txtSubject.setText("Fizika");
     }
 
     private void startDatePicker(){
@@ -203,7 +198,7 @@ public class NewExamActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, getResources().getString(R.string.provideData), Toast.LENGTH_SHORT).show();
             return;
         }
-
+        startSubjectPicker();
         exam.setTitle(txtTitle.getText().toString());
         if(!txtNote.getText().toString().isEmpty())
             exam.setNote(txtNote.getText().toString());
@@ -230,8 +225,8 @@ public class NewExamActivity extends AppCompatActivity implements View.OnClickLi
         if(txtTitle.getText().toString().isEmpty())
             return false;
 
-       /* if(txtSubject.getText().toString().isEmpty())
-            return false;*/
+        if(txtSubject.getText().toString().isEmpty())
+            return false;
 
         if(txtDate.getText().toString().isEmpty())
             return false;

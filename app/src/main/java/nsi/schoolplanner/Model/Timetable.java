@@ -17,28 +17,20 @@ public class Timetable {
     private Long id;
 
     @NotNull
-    private int day;
+    private int column;
 
-    @ToMany
-    @JoinEntity(
-            entity = JoinTimetableWithSubject.class,
-            sourceProperty = "timetableId",
-            targetProperty = "subjectId"
-    )
-    private List<Subject> subjects;
+    @NotNull
+    private int row;
 
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
+    @NotNull
+    private String subject;
 
-    /** Used for active entity operations. */
-    @Generated(hash = 1688453283)
-    private transient TimetableDao myDao;
-
-    @Generated(hash = 233335529)
-    public Timetable(Long id, int day) {
+    @Generated(hash = 873639454)
+    public Timetable(Long id, int column, int row, @NotNull String subject) {
         this.id = id;
-        this.day = day;
+        this.column = column;
+        this.row = row;
+        this.subject = subject;
     }
 
     @Generated(hash = 1552902674)
@@ -53,82 +45,28 @@ public class Timetable {
         this.id = id;
     }
 
-    public int getDay() {
-        return this.day;
+    public int getColumn() {
+        return this.column;
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void setColumn(int column) {
+        this.column = column;
     }
 
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1973938135)
-    public List<Subject> getSubjects() {
-        if (subjects == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            SubjectDao targetDao = daoSession.getSubjectDao();
-            List<Subject> subjectsNew = targetDao._queryTimetable_Subjects(id);
-            synchronized (this) {
-                if (subjects == null) {
-                    subjects = subjectsNew;
-                }
-            }
-        }
-        return subjects;
+    public int getRow() {
+        return this.row;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1744012163)
-    public synchronized void resetSubjects() {
-        subjects = null;
+    public void setRow(int row) {
+        this.row = row;
     }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
+    public String getSubject() {
+        return this.subject;
     }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1900758509)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getTimetableDao() : null;
-    }
 }

@@ -44,18 +44,20 @@ public class ExamsAdapter extends RecyclerView.Adapter<ExamsAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setClickListener(exams.get(position).getId());
-        holder.txtTitle.setText(exams.get(position).getTitle());
-        holder.txtSubject.setText(exams.get(position).getSubject().getName());
 
-        Date date = new Date();
-        long diff = exams.get(position).getDate().getTime() - date.getTime();
-        long days = diff / (24 * 60 * 60 * 1000);
-        long hours = diff / (60 * 60 * 1000) % 24;
-        String tmp = String.format("%02d", days) + " " + context.getResources().getString(R.string.daysAnd) +" " + String.format("%02d", hours) +" " +  context.getResources().getString(R.string.hours);
-        holder.txtCountdown.setText(tmp);
+            holder.setClickListener(exams.get(position).getId());
+            holder.txtTitle.setText(exams.get(position).getTitle());
+            holder.txtSubject.setText(exams.get(position).getSubject().getName());
 
-       holder.backView.setBackgroundColor(colors.get(position%4));
+            Date date = new Date();
+            long diff = exams.get(position).getDate().getTime() - date.getTime();
+            long days = diff / (24 * 60 * 60 * 1000);
+            long hours = diff / (60 * 60 * 1000) % 24;
+            String tmp = String.format("%02d", days) + " " + context.getResources().getString(R.string.daysAnd) + " " + String.format("%02d", hours) + " " + context.getResources().getString(R.string.hours);
+            holder.txtCountdown.setText(tmp);
+
+            holder.backView.setBackgroundColor(colors.get(position % 4));
+
     }
 
     @Override

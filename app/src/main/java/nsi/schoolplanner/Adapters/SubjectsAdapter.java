@@ -46,6 +46,15 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         holder.subjectName.setText(subjects.get(position).getName());
+
+        holder.subjectName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SubjectActivity.subject=subjects.get(position);
+                Intent intent = new Intent(context, SubjectActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -71,16 +80,6 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.ViewHo
                     context.startActivity(intent);
                 }
             });
-
-            subjectName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubjectActivity.subjectName=subjectName.getText().toString();
-                    Intent intent = new Intent(context, SubjectActivity.class);
-                    context.startActivity(intent);
-                }
-            });
         }
-
     }
 }

@@ -29,6 +29,9 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     List<Subject> subjects;
     Button cancelBtn;
     Button chooseSubjectBtn;
+    public static int rowTable;
+    public static int columnTable;
+    public static String subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,26 +50,33 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         TableLayout table = findViewById(R.id.table);
         int count = table.getChildCount();
         for (int i = 0; i < count; i++) {
-            View v = table.getChildAt(i);
-            if (v instanceof TableRow) {
-                TableRow row = (TableRow) v;
-                int rowCount = row.getChildCount();
-                for (int r = 0; r < rowCount; r++) {
-                    View v2 = row.getChildAt(r);
-                    if (v2 instanceof TextView) {
-                        TextView tv = (TextView) v2;
+                            final int rowPos=i;
+                            View v = table.getChildAt(i);
+                            if (v instanceof TableRow) {
+                                TableRow row = (TableRow) v;
+                                int rowCount = row.getChildCount();
+                                for (int r = 0; r < rowCount; r++) {
+                                    final int columnPos=r;
+                                    View v2 = row.getChildAt(r);
+                                    if (v2 instanceof TextView) {
+                                        TextView tv = (TextView) v2;
                         tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
                                 setRecycleViewSubjects();
                                 subjectDialog.show();
+                                rowTable=rowPos;
+                                columnTable =columnPos;
+
                             }
                         });
                     }
                 }
             }
         }
+
+     setTimetable();
     }
     @Override
     public boolean onSupportNavigateUp() {
@@ -87,6 +97,60 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         chooseSubjectBtn.setOnClickListener(this);
     }
 
+    private  void addSubjectToTimeTable(){
+
+        DBManagerSingletone.getInstance(this).createTimetable(rowTable,columnTable,subject);
+        setTimetable();
+    }
+    private void editTimetable(){
+
+        DBManagerSingletone.getInstance(this).editTimetable(rowTable,columnTable,subject);
+        setTimetable();
+    }
+    private void setTimetable(){
+        TableLayout table = findViewById(R.id.table);
+        int count = table.getChildCount();
+        for (int i = 0; i < count; i++) {
+            final int rowPos = i;
+            View v = table.getChildAt(i);
+            if (v instanceof TableRow) {
+                TableRow row = (TableRow) v;
+                int rowCount = row.getChildCount();
+                for (int r = 0; r < rowCount; r++) {
+                    final int columnPos = r;
+                    View v2 = row.getChildAt(r);
+                    if (v2 instanceof TextView) {
+                        if(rowPos>=2){
+                            if(columnPos>=1){
+                                String subject=DBManagerSingletone.getInstance(this).getTimetable(rowPos,columnPos);
+                                if(subject!=null) {
+                                    ((TextView) v2).setText(subject);
+                                }
+                            }
+                        }
+                        if(columnPos==1){
+                            ((TextView) v2).setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                        }
+                        else if(columnPos==2){
+                            ((TextView) v2).setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                        }
+                        else if(columnPos==3){
+                            ((TextView) v2).setTextColor(getResources().getColor(android.R.color.holo_blue_light));
+                        }
+                        else if(columnPos==4){
+                            ((TextView) v2).setTextColor(getResources().getColor(android.R.color.holo_orange_light));
+                        }
+                        else if(columnPos==5){
+                            ((TextView) v2).setTextColor(getResources().getColor(android.R.color.holo_purple));
+                        }
+                        else{
+
+                        }
+                    }
+                }
+            }
+        }
+    }
     private void setRecycleViewSubjects() {
 
         getAllSubject();
@@ -111,6 +175,17 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 subjectDialog.cancel();
                 break;
             case R.id.choose_subject:
+                String subject=DBManagerSingletone.getInstance(this).getTimetable(rowTable,columnTable);
+                if(subject==null) {
+                    addSubjectToTimeTable();
+                }
+                else if(subject.equals("")){
+                    addSubjectToTimeTable();
+                }
+                else{
+                    editTimetable();
+                }
+                subjectDialog.cancel();
                 break;
         }
     }
